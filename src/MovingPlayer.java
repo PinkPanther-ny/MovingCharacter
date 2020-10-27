@@ -1,10 +1,10 @@
 import bagel.*;
 import bagel.util.Point;
 
-public class MovingPlayer {
+public abstract class MovingPlayer {
 
-    private static final double DEFAULT_SPEED = 1.5;
-    private static final double RUNNING_SPEED = DEFAULT_SPEED*2.2;
+    public static final double DEFAULT_SPEED = 2;
+    public static final double RUNNING_SPEED = DEFAULT_SPEED*2;
 
     private Image player;
     private final int tileWidth;
@@ -18,8 +18,6 @@ public class MovingPlayer {
     private final Timer timer;
 
     private double speed = DEFAULT_SPEED;
-    private boolean isMoving = false;
-    private Direction direction;
     private Point location;
 
     MovingPlayer(int tileWidth, int tileHeight, String filePath, int tick){
@@ -29,7 +27,6 @@ public class MovingPlayer {
         indexY=0;
         timer = new Timer(tick);
         location = new Point(500,500);
-        direction = Direction.SOUTH;
 
         try {
             player = new Image(filePath);
@@ -59,7 +56,7 @@ public class MovingPlayer {
 
         player.draw(location.x, location.y, new DrawOptions().setSection(indexX*tileWidth, indexY*tileHeight, tileWidth, tileHeight ) );
         if(timer.isCool()){
-            System.out.printf("%d,%d\n",indexX*tileWidth, indexY*tileHeight);
+            //System.out.printf("%d,%d\n",indexX*tileWidth, indexY*tileHeight);
             indexX++;
             if (indexX==tileX){
                 indexX=0;
@@ -74,63 +71,80 @@ public class MovingPlayer {
     }
 
     public void drawMoving(){
-
-        player.draw(location.x, location.y, new DrawOptions().setSection(indexX*tileWidth, direction.getDirection()*tileHeight, tileWidth, tileHeight ) );
-        if(timer.isCool()){
-            indexX++;
-            if (indexX==tileX){
-                indexX=0;
-            }
-
-        }
-
+        drawAll();
     }
 
-    public void drawStable(){
-        player.draw(location.x, location.y, new DrawOptions().setSection(0, direction.getDirection()*tileHeight, tileWidth, tileHeight ) );
-
-    }
+    public abstract void drawStable();
 
     public void update(Input input){
-
-        if(input.isDown(Keys.D)){
-            isMoving = true;
-            direction = Direction.EAST;
-            location = new Point(location.x+speed, location.y);
-        }else if(input.isDown(Keys.A)){
-            isMoving = true;
-            direction = Direction.WEST;
-            location = new Point(location.x-speed, location.y);
-        }else if(input.isDown(Keys.W)){
-            isMoving = true;
-            direction = Direction.NORTH;
-            location = new Point(location.x, location.y-speed);
-        }else if(input.isDown(Keys.S)){
-            isMoving = true;
-            direction = Direction.SOUTH;
-            location = new Point(location.x, location.y+speed);
-        }else {
-
-            isMoving = false;
-        }
-
-        if(input.isDown(Keys.LEFT_SHIFT)){
-            speed = RUNNING_SPEED;
-        }else {
-            speed = DEFAULT_SPEED;
-        }
-
-
-        if(isMoving){
-            drawMoving();
-        }else {
-            drawStable();
-        }
-
-
-
+        drawMoving();
     }
 
+    public Timer getTimer() {
+        return timer;
+    }
 
+    public Image getPlayer() {
+        return player;
+    }
 
+    public void setPlayer(Image player) {
+        this.player = player;
+    }
+
+    public int getTileWidth() {
+        return tileWidth;
+    }
+
+    public int getTileHeight() {
+        return tileHeight;
+    }
+
+    public int getTileX() {
+        return tileX;
+    }
+
+    public void setTileX(int tileX) {
+        this.tileX = tileX;
+    }
+
+    public int getTileY() {
+        return tileY;
+    }
+
+    public void setTileY(int tileY) {
+        this.tileY = tileY;
+    }
+
+    public int getIndexX() {
+        return indexX;
+    }
+
+    public void setIndexX(int indexX) {
+        this.indexX = indexX;
+    }
+
+    public int getIndexY() {
+        return indexY;
+    }
+
+    public void setIndexY(int indexY) {
+        this.indexY = indexY;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public Point getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
 }
