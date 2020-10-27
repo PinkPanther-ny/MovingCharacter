@@ -39,7 +39,7 @@ public class MovingPlayer {
         }
 
         try {
-            //validateImage();
+            validateImage();
             tileX = (int)(this.player.getWidth()/tileWidth);
             tileY = (int)(this.player.getHeight()/tileHeight);
         } catch (Exception e) {
@@ -87,7 +87,6 @@ public class MovingPlayer {
     }
 
     public void drawStable(){
-
         player.draw(location.x, location.y, new DrawOptions().setSection(0, direction.getDirection()*tileHeight, tileWidth, tileHeight ) );
 
     }
