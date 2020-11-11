@@ -5,7 +5,6 @@ import bagel.Keys;
 
 public class Game extends AbstractGame {
     private final Image backGround;
-    //private final MovingPlayer player = new MovingPlayer(64,64,"res/player.png", 120);
     private final MovingPlayer player = new WoodCutter();
     public Game() {
         backGround = new Image("res/bg.png");

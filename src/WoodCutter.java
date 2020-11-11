@@ -31,13 +31,6 @@ public class WoodCutter extends MovingPlayer{
     }
 
     @Override
-    public void drawStable(){
-        action = Action.IDLE;
-        drawMoving();
-
-    }
-
-    @Override
     public void update(Input input) {
 
         if(input.isDown(Keys.D) && input.isDown(Keys.LEFT_SHIFT)){
@@ -87,8 +80,8 @@ public class WoodCutter extends MovingPlayer{
             action = Action.STABLE;
             drawMoving();
         }else {
-
-            drawStable();
+            action = Action.IDLE;
+            drawMoving();
         }
     }
 }

@@ -33,9 +33,8 @@ public class Player extends MovingPlayer{
 
     }
 
-    @Override
     public void drawStable(){
-        getPlayer().draw(getLocation().x, getLocation().y,
+        getPlayer().drawFromTopLeft(getLocation().x, getLocation().y,
                 new DrawOptions().setSection(
                         0,
                         direction.getDirection()*getTileHeight(),

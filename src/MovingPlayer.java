@@ -6,15 +6,25 @@ public abstract class MovingPlayer {
     public static final double DEFAULT_SPEED = 2;
     public static final double RUNNING_SPEED = DEFAULT_SPEED*2;
 
+    /**
+     * Source image that contains all movements,
+     * each row contains one whole process of a movement
+     * */
     private Image player;
+
+    /** Source image information */
     private final int tileWidth;
     private final int tileHeight;
 
+    /** Number of rows and columns */
     private int tileX;
     private int tileY;
+
+    /** Current processing image */
     private int indexX;
     private int indexY;
 
+    /*  Frame Rate of character */
     private final Timer timer;
 
     private double speed = DEFAULT_SPEED;
@@ -30,12 +40,6 @@ public abstract class MovingPlayer {
 
         try {
             player = new Image(filePath);
-        }catch (BagelError e){
-            System.out.println(e.getMessage());
-            System.exit(-1);
-        }
-
-        try {
             validateImage();
             tileX = (int)(this.player.getWidth()/tileWidth);
             tileY = (int)(this.player.getHeight()/tileHeight);
@@ -43,6 +47,7 @@ public abstract class MovingPlayer {
             System.out.println(e.getMessage());
             System.exit(-1);
         }
+
     }
 
     private void validateImage() throws Exception {
@@ -52,20 +57,24 @@ public abstract class MovingPlayer {
         }
     }
 
+    /**
+     * Not quite useful, animate the player by drawing every row and column,
+     * but good for visualising whole image
+     * */
     public void drawAll(){
 
-        player.draw(location.x, location.y, new DrawOptions().setSection(indexX*tileWidth, indexY*tileHeight, tileWidth, tileHeight ) );
+        player.draw(location.x, location.y,
+                new DrawOptions().setSection(indexX*tileWidth, indexY*tileHeight, tileWidth, tileHeight )
+        );
+
         if(timer.isCool()){
-            //System.out.printf("%d,%d\n",indexX*tileWidth, indexY*tileHeight);
-            indexX++;
-            if (indexX==tileX){
+            if (++indexX==tileX){
                 indexX=0;
                 indexY++;
             }
             if(indexY==tileY){
                 indexY=0;
             }
-
         }
 
     }
@@ -73,8 +82,6 @@ public abstract class MovingPlayer {
     public void drawMoving(){
         drawAll();
     }
-
-    public abstract void drawStable();
 
     public void update(Input input){
         drawMoving();
@@ -86,10 +93,6 @@ public abstract class MovingPlayer {
 
     public Image getPlayer() {
         return player;
-    }
-
-    public void setPlayer(Image player) {
-        this.player = player;
     }
 
     public int getTileWidth() {
@@ -104,32 +107,12 @@ public abstract class MovingPlayer {
         return tileX;
     }
 
-    public void setTileX(int tileX) {
-        this.tileX = tileX;
-    }
-
-    public int getTileY() {
-        return tileY;
-    }
-
-    public void setTileY(int tileY) {
-        this.tileY = tileY;
-    }
-
     public int getIndexX() {
         return indexX;
     }
 
     public void setIndexX(int indexX) {
         this.indexX = indexX;
-    }
-
-    public int getIndexY() {
-        return indexY;
-    }
-
-    public void setIndexY(int indexY) {
-        this.indexY = indexY;
     }
 
     public double getSpeed() {
